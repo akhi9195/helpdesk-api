@@ -1,0 +1,13 @@
+# Deployed instance
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
+
+logging:
+  structured:
+    format:
+      console: ecs          # one JSON object per log line
+  level:
+    root: INFO

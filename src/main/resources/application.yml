@@ -1,0 +1,31 @@
+# Shared settings for every profile
+spring:
+  application:
+    name: helpdesk-api
+  profiles:
+    default: local          # fallback only; SPRING_PROFILES_ACTIVE overrides it
+  threads:
+    virtual:
+      enabled: true         # Tomcat handles requests on virtual threads
+
+server:
+  port: ${SERVER_PORT:8080}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true       # /actuator/health/liveness and /readiness
+      show-details: never
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha

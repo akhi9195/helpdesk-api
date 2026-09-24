@@ -1,0 +1,9 @@
+# Daily development
+logging:
+  level:
+    com.portfolio.helpdesk: DEBUG
+
+management:
+  endpoint:
+    health:
+      show-details: always

@@ -1,0 +1,5 @@
+# Automated tests (Testcontainers datasource arrives in Milestone 2)
+logging:
+  level:
+    root: WARN
+    com.portfolio.helpdesk: INFO
