@@ -7,6 +7,14 @@ spring:
   threads:
     virtual:
       enabled: true         # Tomcat handles requests on virtual threads
+  jpa:
+    open-in-view: false      # no lazy loading outside @Transactional services
+    hibernate:
+      ddl-auto: validate  # Flyway owns the schema; Hibernate only checks it
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
 
 server:
   port: ${SERVER_PORT:8080}

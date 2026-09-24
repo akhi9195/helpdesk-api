@@ -1,4 +1,4 @@
-# Automated tests (Testcontainers datasource arrives in Milestone 2)
+# Automated tests (No datasource here: Testcontainers supplies it)
 logging:
   level:
     root: WARN
