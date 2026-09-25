@@ -1,8 +1,7 @@
-package com.portfolio.helpdesk.entities;
+package com.portfolio.helpdesk.ticket;
 
-import com.portfolio.helpdesk.enums.ticket.TicketCategory;
-import com.portfolio.helpdesk.enums.ticket.TicketPriority;
-import com.portfolio.helpdesk.enums.ticket.TicketStatus;
+import com.portfolio.helpdesk.common.persistence.BaseEntity;
+import com.portfolio.helpdesk.user.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
