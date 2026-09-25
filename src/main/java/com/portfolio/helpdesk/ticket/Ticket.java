@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Formula;
 
 import java.time.Instant;
 import java.util.Objects;
@@ -49,6 +50,9 @@ public class Ticket extends BaseEntity {
     @Column(name = "closed_at")
     private Instant closedAt;
 
+    @Formula("case priority when 'LOW' then 1 when 'MEDIUM' then 2 "
+            + "when 'HIGH' then 3 when 'CRITICAL' then 4 end")
+    private int priorityRank;
 
     /** BR-1: a new ticket is always OPEN and unassigned. */
     public Ticket(String title, String description, TicketPriority priority,
