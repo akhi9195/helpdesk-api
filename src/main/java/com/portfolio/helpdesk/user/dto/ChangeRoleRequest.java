@@ -1,6 +1,6 @@
 package com.portfolio.helpdesk.user.dto;
 
-import com.portfolio.helpdesk.user.Role;
+import com.portfolio.helpdesk.common.security.Role;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 

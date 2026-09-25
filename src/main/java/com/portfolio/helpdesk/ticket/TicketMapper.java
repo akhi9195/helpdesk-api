@@ -12,5 +12,6 @@ import org.mapstruct.Mapper;
 @Mapper(config = MapStructConfig.class, uses = UserMapper.class)
 interface TicketMapper {
 
+
     TicketResponse toResponse(Ticket ticket);
 }

@@ -1,6 +1,7 @@
 package com.portfolio.helpdesk.user;
 
 import com.portfolio.helpdesk.common.persistence.BaseEntity;
+import com.portfolio.helpdesk.common.security.Role;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

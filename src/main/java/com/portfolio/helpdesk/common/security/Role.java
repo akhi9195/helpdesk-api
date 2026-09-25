@@ -1,4 +1,4 @@
-package com.portfolio.helpdesk.user;
+package com.portfolio.helpdesk.common.security;
 
 public enum Role {
     USER,
