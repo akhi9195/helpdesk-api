@@ -14,7 +14,7 @@ import java.util.Objects;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name="ticket")
+@Table(name="tickets")
 public class Ticket extends BaseEntity {
 
     @Column(name ="title", nullable = false, length = 150)
