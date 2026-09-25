@@ -1,4 +1,4 @@
-package com.portfolio.helpdesk.enums.ticket;
+package com.portfolio.helpdesk.ticket;
 
 public enum TicketCategory {
     NETWORK,

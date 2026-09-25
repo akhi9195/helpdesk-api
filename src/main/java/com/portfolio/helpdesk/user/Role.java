@@ -1,4 +1,4 @@
-package com.portfolio.helpdesk.enums.user;
+package com.portfolio.helpdesk.user;
 
 public enum Role {
     USER,

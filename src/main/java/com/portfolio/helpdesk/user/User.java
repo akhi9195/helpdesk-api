@@ -1,6 +1,6 @@
-package com.portfolio.helpdesk.entities;
+package com.portfolio.helpdesk.user;
 
-import com.portfolio.helpdesk.enums.user.Role;
+import com.portfolio.helpdesk.common.persistence.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -15,7 +15,7 @@ import java.util.Objects;
 @Table(name="users")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User extends  BaseEntity{
+public class User extends BaseEntity {
 
     @Column(name="full_name", nullable = false, length = 100)
     private String fullName;

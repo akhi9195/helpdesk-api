@@ -1,5 +1,12 @@
 # Automated tests (No datasource here: Testcontainers supplies it)
+Spring:
+  jpa:
+    properties:
+      hibernate:
+        generate_statistics: true
+
 logging:
   level:
+    org.hibernate.SQL: debug
     root: WARN
     com.portfolio.helpdesk: INFO

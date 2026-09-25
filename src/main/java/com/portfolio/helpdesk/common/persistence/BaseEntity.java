@@ -1,4 +1,4 @@
-package com.portfolio.helpdesk.entities;
+package com.portfolio.helpdesk.common.persistence;
 
 import jakarta.persistence.*;
 import lombok.Getter;

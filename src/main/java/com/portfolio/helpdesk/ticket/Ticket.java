@@ -1,12 +1,12 @@
-package com.portfolio.helpdesk.entities;
+package com.portfolio.helpdesk.ticket;
 
-import com.portfolio.helpdesk.enums.ticket.TicketCategory;
-import com.portfolio.helpdesk.enums.ticket.TicketPriority;
-import com.portfolio.helpdesk.enums.ticket.TicketStatus;
+import com.portfolio.helpdesk.common.persistence.BaseEntity;
+import com.portfolio.helpdesk.user.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Formula;
 
 import java.time.Instant;
 import java.util.Objects;
@@ -14,7 +14,7 @@ import java.util.Objects;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name="ticket")
+@Table(name="tickets")
 public class Ticket extends BaseEntity {
 
     @Column(name ="title", nullable = false, length = 150)
@@ -50,6 +50,9 @@ public class Ticket extends BaseEntity {
     @Column(name = "closed_at")
     private Instant closedAt;
 
+    @Formula("case priority when 'LOW' then 1 when 'MEDIUM' then 2 "
+            + "when 'HIGH' then 3 when 'CRITICAL' then 4 end")
+    private int priorityRank;
 
     /** BR-1: a new ticket is always OPEN and unassigned. */
     public Ticket(String title, String description, TicketPriority priority,
