@@ -54,6 +54,10 @@ public class Ticket extends BaseEntity {
             + "when 'HIGH' then 3 when 'CRITICAL' then 4 end")
     private int priorityRank;
 
+    @Version
+    @Column(nullable = false)
+    private Long version;
+
     /** BR-1: a new ticket is always OPEN and unassigned. */
     public Ticket(String title, String description, TicketPriority priority,
                   TicketCategory category, User createdBy) {
@@ -66,6 +70,31 @@ public class Ticket extends BaseEntity {
         this.assignedTo = null;
     }
 
+    public void startBy(User assignee) {
+        this.assignedTo = assignee;               // BR-3: auto-assign to caller
+        this.status = TicketStatus.IN_PROGRESS;
+    }
 
+    public void resolve(Instant at) {
+        this.status = TicketStatus.RESOLVED;
+        this.resolvedAt = at;                     // BR-9
+    }
+
+    public void close(Instant at) {
+        this.status = TicketStatus.CLOSED;
+        this.closedAt = at;                       // BR-9
+    }
+
+    public Long creatorId() {
+        return createdBy.getId();
+    }
+
+    public Long assigneeId() {
+        return assignedTo == null ? null : assignedTo.getId();
+    }
+
+    public boolean isCreatedBy(Long userId) {
+        return creatorId().equals(userId);
+    }
 
 }
