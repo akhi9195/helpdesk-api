@@ -9,6 +9,7 @@ import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
+import org.springframework.security.core.AuthenticationException;
 
 /**
  * Maps every exception raised in controllers/services to ErrorResponse.
@@ -108,15 +110,23 @@ public class GlobalExceptionHandler {
                                                 String message,
                                                 HttpServletRequest req,
                                                 List<ErrorResponse.FieldViolation> fieldErrors) {
-        HttpStatus status = code.getHttpStatus();
-        ErrorResponse body = new ErrorResponse(
-                Instant.now(),
-                status.value(),
-                code.name(),
-                message,
-                req.getRequestURI(),
-                MDC.get("traceId"),   // null until TraceIdFilter arrives in Milestone 9
-                fieldErrors);
-        return ResponseEntity.status(status).body(body);
+        return ResponseEntity.status(code.getHttpStatus())
+                .body(ErrorResponse.of(code, message, req.getRequestURI(), fieldErrors));
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ErrorResponse> handleAuthentication(AuthenticationException ex,
+                                                              HttpServletRequest request) {
+        String message = (ex instanceof BadCredentialsException)
+                ? "Invalid email or password"
+                : "Authentication required";
+        return build(ErrorCode.UNAUTHORIZED, message, request, null);
+    }
+
+    @ExceptionHandler(org.springframework.security.access.AccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleSpringAccessDenied(
+            org.springframework.security.access.AccessDeniedException ex, HttpServletRequest request) {
+        return build(ErrorCode.ACCESS_DENIED,
+                "You do not have permission to perform this action", request, null);
     }
 }

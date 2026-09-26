@@ -23,6 +23,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,6 +45,7 @@ class TicketController {
     private final TicketService ticketService;
 
     @PostMapping
+    @PreAuthorize("hasRole('USER')")
     @Operation(summary = "Create a ticket",
             description = "Caller: USER. The ticket starts as OPEN and unassigned. "
                     + "Returns 201 with a Location header pointing to the new ticket.")
@@ -58,6 +60,7 @@ class TicketController {
     }
 
     @GetMapping
+    @PreAuthorize("isAuthenticated()")
     @Operation(summary = "List tickets",
             description = "USER sees only own tickets; SUPPORT and ADMIN see all. "
                     + "Sort by createdAt or priority, e.g. sort=createdAt,desc. Max page size 100.")
@@ -72,6 +75,7 @@ class TicketController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("isAuthenticated()")
     @Operation(summary = "View a ticket",
             description = "Caller: the ticket's creator, SUPPORT or ADMIN. "
                     + "A USER opening someone else's ticket gets 404.")
@@ -82,6 +86,7 @@ class TicketController {
     }
 
     @PatchMapping("/{id}/status")
+    @PreAuthorize("isAuthenticated()")
     @Operation(summary = "Change ticket status",
             description = "Forward-only lifecycle. OPEN -> IN_PROGRESS: SUPPORT or ADMIN (caller becomes assignee). "
                     + "IN_PROGRESS -> RESOLVED: assignee or ADMIN. RESOLVED -> CLOSED: creator or ADMIN. "

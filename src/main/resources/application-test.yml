@@ -10,3 +10,7 @@ logging:
     org.hibernate.SQL: debug
     root: WARN
     com.portfolio.helpdesk: INFO
+
+app:
+  jwt:
+    secret: <generate a second value just for tests>
