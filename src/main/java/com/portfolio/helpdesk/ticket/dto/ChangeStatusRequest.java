@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 
 @Schema(description = "Target status for a lifecycle transition")
 public record ChangeStatusRequest(
-        @Schema(description = "IN_PROGRESS, RESOLVED or CLOSED, following the lifecycle",
+        @Schema(description = "Next status: OPEN -> IN_PROGRESS -> RESOLVED -> CLOSED",
                 example = "IN_PROGRESS")
         @NotNull
         TicketStatus status
