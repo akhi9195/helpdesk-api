@@ -1,6 +1,7 @@
 package com.portfolio.helpdesk.common.exception;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.portfolio.helpdesk.common.web.TraceIdFilter;
 import org.slf4j.MDC;
 
 import java.time.Instant;
@@ -27,7 +28,8 @@ public record ErrorResponse(
                 code.name(),
                 message,
                 path,
-                MDC.get("traceId"),
+                TraceIdFilter.currentTraceId(),
                 fieldErrors);
     }
+
 }

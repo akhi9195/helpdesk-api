@@ -8,9 +8,9 @@ spring:
     virtual:
       enabled: true         # Tomcat handles requests on virtual threads
   jpa:
-    open-in-view: false      # no lazy loading outside @Transactional services
+    open-in-view: false     # no lazy loading outside @Transactional services
     hibernate:
-      ddl-auto: validate  # Flyway owns the schema; Hibernate only checks it
+      ddl-auto: validate    # Flyway owns the schema; Hibernate only checks it
     properties:
       hibernate:
         jdbc:
@@ -36,12 +36,13 @@ management:
       show-details: never
 
 springdoc:
-  api-docs:
-    path: /v3/api-docs
+  default-produces-media-type: application/json
   swagger-ui:
-    path: /swagger-ui.html
-    operations-sorter: method
+    persist-authorization: true     # token survives page refresh
+    try-it-out-enabled: true        # no extra click per endpoint
     tags-sorter: alpha
+    operations-sorter: method
+    display-request-duration: true
 
 app:
   jwt:
@@ -49,6 +50,22 @@ app:
     expiration: ${JWT_EXPIRATION_MINUTES:60}m
     issuer: helpdesk-api
   admin:
-    email: ${ADMIN_EMAIL:}
+    email: ${ADMIN_EMAIL:}          # no default here: prod must set it explicitly
     password: ${ADMIN_PASSWORD:}
     full-name: Help Desk Admin
+  demo:
+    enabled: ${DEMO_ENABLED:true}
+    support:
+      email: ${DEMO_SUPPORT_EMAIL:}
+      password: ${DEMO_SUPPORT_PASSWORD:}
+      full-name: Demo Support
+    user:
+      email: ${DEMO_USER_EMAIL:}
+      password: ${DEMO_USER_PASSWORD:}
+      full-name: Demo User
+
+logging:
+  pattern:
+    level: "%5p [trace=%X{traceId:-} user=%X{userId:-}]"
+  level:
+    helpdesk.access: INFO

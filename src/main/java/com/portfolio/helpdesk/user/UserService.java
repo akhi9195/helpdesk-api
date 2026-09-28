@@ -66,4 +66,12 @@ public class UserService {
                 .map(userMapper::toResponse)
                 .orElseThrow(() -> new ResourceNotFoundException("User", id));
     }
+    /** Bootstrap use only (demo/admin initializers). Bypasses BR-10; never call from a controller. */
+    @Transactional
+    public void resetAccount(Long userId, Role role, String passwordHash) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+        user.setRole(role);
+        user.changePasswordHash(passwordHash);
+    }
 }

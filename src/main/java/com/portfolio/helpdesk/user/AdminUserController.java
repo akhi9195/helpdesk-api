@@ -1,10 +1,12 @@
 package com.portfolio.helpdesk.user;
 
+import com.portfolio.helpdesk.common.config.OpenApiConfig;
 import com.portfolio.helpdesk.common.security.CurrentUser;
 import com.portfolio.helpdesk.user.dto.ChangeRoleRequest;
 import com.portfolio.helpdesk.user.dto.UserResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/admin/users")
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('ADMIN')")
+@SecurityRequirement(name = OpenApiConfig.BEARER)
 @Tag(name = "Admin: users", description = "Role management")
 class AdminUserController {
 
