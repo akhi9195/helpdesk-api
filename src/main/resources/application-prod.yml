@@ -22,3 +22,9 @@ app:
     secret: ${JWT_SECRET}
   demo:
     enabled: ${DEMO_ENABLED:true}
+    support:
+      email: ${DEMO_SUPPORT_EMAIL:support@demo.dev}
+      password: ${DEMO_SUPPORT_PASSWORD:Support12345}
+    user:
+      email: ${DEMO_USER_EMAIL:user@demo.dev}
+      password: ${DEMO_USER_PASSWORD:User12345}
