@@ -1,5 +1,6 @@
 package com.portfolio.helpdesk.ticket;
 
+import com.portfolio.helpdesk.common.config.OpenApiConfig;
 import com.portfolio.helpdesk.common.exception.DomainException;
 import com.portfolio.helpdesk.common.exception.ErrorCode;
 import com.portfolio.helpdesk.common.security.CurrentUser;
@@ -12,6 +13,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
@@ -36,6 +38,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("/api/tickets")
+@SecurityRequirement(name = OpenApiConfig.BEARER)
 @RequiredArgsConstructor
 @Tag(name = "Tickets", description = "Create, list, view and progress support tickets")
 class TicketController {
