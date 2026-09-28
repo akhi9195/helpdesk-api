@@ -1,5 +1,6 @@
 package com.portfolio.helpdesk.ticket;
 
+import com.portfolio.helpdesk.common.config.OpenApiConfig;
 import com.portfolio.helpdesk.common.exception.DomainException;
 import com.portfolio.helpdesk.common.exception.ErrorCode;
 import com.portfolio.helpdesk.common.security.CurrentUser;
@@ -12,6 +13,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
@@ -23,6 +25,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,6 +38,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("/api/tickets")
+@SecurityRequirement(name = OpenApiConfig.BEARER)
 @RequiredArgsConstructor
 @Tag(name = "Tickets", description = "Create, list, view and progress support tickets")
 class TicketController {
@@ -44,6 +48,7 @@ class TicketController {
     private final TicketService ticketService;
 
     @PostMapping
+    @PreAuthorize("hasRole('USER')")
     @Operation(summary = "Create a ticket",
             description = "Caller: USER. The ticket starts as OPEN and unassigned. "
                     + "Returns 201 with a Location header pointing to the new ticket.")
@@ -58,6 +63,7 @@ class TicketController {
     }
 
     @GetMapping
+    @PreAuthorize("isAuthenticated()")
     @Operation(summary = "List tickets",
             description = "USER sees only own tickets; SUPPORT and ADMIN see all. "
                     + "Sort by createdAt or priority, e.g. sort=createdAt,desc. Max page size 100.")
@@ -72,6 +78,7 @@ class TicketController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("isAuthenticated()")
     @Operation(summary = "View a ticket",
             description = "Caller: the ticket's creator, SUPPORT or ADMIN. "
                     + "A USER opening someone else's ticket gets 404.")
@@ -82,6 +89,7 @@ class TicketController {
     }
 
     @PatchMapping("/{id}/status")
+    @PreAuthorize("isAuthenticated()")
     @Operation(summary = "Change ticket status",
             description = "Forward-only lifecycle. OPEN -> IN_PROGRESS: SUPPORT or ADMIN (caller becomes assignee). "
                     + "IN_PROGRESS -> RESOLVED: assignee or ADMIN. RESOLVED -> CLOSED: creator or ADMIN. "

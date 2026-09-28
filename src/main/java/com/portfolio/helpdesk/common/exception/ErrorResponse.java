@@ -1,6 +1,8 @@
 package com.portfolio.helpdesk.common.exception;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.portfolio.helpdesk.common.web.TraceIdFilter;
+import org.slf4j.MDC;
 
 import java.time.Instant;
 import java.util.List;
@@ -15,4 +17,19 @@ public record ErrorResponse(
         @JsonInclude(JsonInclude.Include.NON_EMPTY) List<FieldViolation> fieldErrors) {
 
     public record FieldViolation(String field, String message) {}
+
+    public static ErrorResponse of(ErrorCode code,
+                                   String message,
+                                   String path,
+                                   List<FieldViolation> fieldErrors) {
+        return new ErrorResponse(
+                Instant.now(),
+                code.getHttpStatus().value(),
+                code.name(),
+                message,
+                path,
+                TraceIdFilter.currentTraceId(),
+                fieldErrors);
+    }
+
 }

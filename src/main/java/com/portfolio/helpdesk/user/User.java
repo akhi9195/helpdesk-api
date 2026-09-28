@@ -45,4 +45,8 @@ public class User extends BaseEntity {
     public static String normalizeEmail(String email) {
         return email == null ? null : email.trim().toLowerCase(Locale.ROOT);
     }
+    // in User.java (package com.portfolio.helpdesk.user)
+    public void changePasswordHash(String passwordHash) {
+        this.passwordHash = Objects.requireNonNull(passwordHash, "passwordHash");
+    }
 }
